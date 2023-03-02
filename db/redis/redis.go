@@ -5,10 +5,10 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-type RedisConfig redis.Options
+type Config redis.Options
 type Options struct {
 	Ctx    context.Context
-	Config RedisConfig
+	Config Config
 }
 
 type Client struct {
@@ -21,14 +21,14 @@ var (
 )
 
 // New 新建实例
-func New(opt *Options) Client {
+func New(opt *Options) *Client {
 	cfg := redis.Options(opt.Config)
 	rdb := redis.NewClient(&cfg)
 	ctx := opt.Ctx
 	if opt.Ctx == nil {
 		ctx = context.Background()
 	}
-	return Client{
+	return &Client{
 		Ctx: ctx,
 		Rdb: rdb,
 	}

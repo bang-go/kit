@@ -1,7 +1,6 @@
 package http
 
 import (
-	"encoding/json"
 	"errors"
 	"io"
 	"net/http"
@@ -23,22 +22,26 @@ const (
 	MethodTrace   = http.MethodTrace
 	//状态码
 	StatusOk = http.StatusOK
+	//请求类型
+	ContentRaw  = "Raw"  //原始请求
+	ContentForm = "Form" //Form请求
+	ContentJson = "Json" //Json请求
+
 )
 
 // Request 请求结构体
 type Request struct {
-	Url      string            `json:"url"`      // 请求url
-	Method   string            `json:"method"`   //请求方法，GET/POST/PUT/DELETE/PATCH...
-	Headers  map[string]string `json:"headers"`  // 请求头
-	Params   map[string]string `json:"params"`   //Query参数
-	Raw      string            `json:"raw"`      //原始请求数据
-	Form     map[string]string `json:"form"`     //表单格式请求数据
-	Json     map[string]string `json:"json"`     //JSON格式请求数据
-	Files    map[string]string `json:"files"`    //TODO:文件
-	Cookies  map[string]string `json:"cookies"`  //Cookies
-	Timeout  time.Duration     `json:"timeout"`  //超时时间
-	Username string            `json:"username"` //base认证username
-	Password string            `json:"password"` //base认证password
+	Url         string            `json:"url"`          // 请求url
+	Method      string            `json:"method"`       //请求方法，GET/POST/PUT/DELETE/PATCH...
+	Headers     map[string]string `json:"headers"`      // 请求头
+	Params      map[string]string `json:"params"`       //Query参数
+	Body        string            `json:"body"`         //请求体
+	ContentType string            `json:"content_type"` //数据编码格式 //TODO:更多
+	Files       map[string]string `json:"files"`        //TODO:文件
+	Cookies     map[string]string `json:"cookies"`      //Cookies
+	Timeout     time.Duration     `json:"timeout"`      //超时时间
+	Username    string            `json:"username"`     //base认证username
+	Password    string            `json:"password"`     //base认证password
 	//TODO:代理
 }
 
@@ -131,25 +134,19 @@ func (r *Request) initTimeout(client *http.Client) {
 
 // 设置请求体
 func (r *Request) getBody() *strings.Reader {
-	var body string
 	if r.Headers == nil {
 		r.Headers = map[string]string{}
 	}
-	if len(r.Raw) > 0 { //原始数据
-		body = r.Raw
-	} else if r.Form != nil {
-		urlValues := url.Values{}
-		for key, value := range r.Form {
-			urlValues.Set(key, value)
-		}
-		body = urlValues.Encode()
+	switch r.ContentType {
+	case ContentRaw:
+	case ContentForm:
 		r.Headers["Content-Type"] = "application/x-www-form-urlencoded"
-	} else if r.Json != nil {
-		byteBody, _ := json.Marshal(r.Json)
-		body = string(byteBody)
+	case ContentJson:
+		r.Headers["Content-Type"] = "application/json"
+	default: //默认json
 		r.Headers["Content-Type"] = "application/json"
 	}
-	return strings.NewReader(body)
+	return strings.NewReader(r.Body)
 }
 
 // Send 发送请求
