@@ -12,5 +12,5 @@ func TestLogger(t *testing.T) {
 		fmt.Println(err)
 		error.Exit(1)
 	}
-	Info("test", String("say", "hello"))
+	Error("test", String("say", "hello"))
 }

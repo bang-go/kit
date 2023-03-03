@@ -76,7 +76,7 @@ func InitLogger(opt *Options) error {
 		cfg = opt.Config
 	}
 	// 构建日志
-	l, err = cfg.Build()
+	l, err = cfg.Build(zap.AddCallerSkip(1))
 	return err
 }
 
