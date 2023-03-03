@@ -16,5 +16,4 @@ func RandRange[T constraint.Integer](n1 T, n2 T) int64 {
 	}
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	return r.Int63n(int64(n2-n1)) + int64(n1)
-
 }
