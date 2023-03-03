@@ -5,5 +5,5 @@
 ## 安装
 
 ````
-go get github/bang-go/kit
+go get github.com/bang-go/kit
 ````
