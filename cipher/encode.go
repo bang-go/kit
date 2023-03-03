@@ -1,6 +1,9 @@
 package cipher
 
-import "encoding/base64"
+import (
+	"encoding/base64"
+	"net/url"
+)
 
 func Base64Encode(s string) string {
 	return base64.StdEncoding.EncodeToString([]byte(s))
@@ -12,10 +15,9 @@ func Base64Decode(s string) (string, error) {
 }
 
 func UrlEncode(s string) string {
-	return base64.URLEncoding.EncodeToString([]byte(s))
+	return url.QueryEscape(s)
 }
 
 func UrlDecode(s string) (string, error) {
-	resByte, err := base64.URLEncoding.DecodeString(s)
-	return string(resByte), err
+	return url.QueryUnescape(s)
 }
