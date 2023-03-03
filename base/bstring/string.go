@@ -5,13 +5,13 @@ import (
 	"strings"
 )
 
-// ToInt StringToInt  String转化为Int
-func ToInt(val string) (res int, err error) {
+// Int StringToInt  String转化为Int
+func Int(val string) (res int, err error) {
 	return strconv.Atoi(val)
 }
 
-// ToFloat StringToFloat  String转化为Float
-func ToFloat(val string) (res float64, err error) {
+// Float StringToFloat  String转化为Float
+func Float(val string) (res float64, err error) {
 	return strconv.ParseFloat(val, 64)
 }
 

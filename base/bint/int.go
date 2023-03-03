@@ -5,8 +5,8 @@ import (
 	"strconv"
 )
 
-// ToString Int转化String(10进制)
-func ToString[T constraint.Integer](val T) (str string) {
+// String Int转化String(10进制)
+func String[T constraint.Integer](val T) (str string) {
 	str = strconv.FormatInt(int64(val), 10)
 	return
 }
