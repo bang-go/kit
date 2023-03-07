@@ -50,6 +50,14 @@ var (
 	Int64p     = zap.Int64p
 	Durationp  = zap.Durationp
 	Any        = zap.Any
+	Debug      = logger.Debug
+	Info       = logger.Info
+	Warn       = logger.Warn
+	Error      = logger.Error
+	DPanic     = logger.DPanic
+	Panic      = logger.Panic
+	Fatal      = logger.Fatal
+	Sync       = logger.Sync
 )
 
 type Config = zap.Config
