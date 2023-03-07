@@ -1,6 +1,7 @@
 package env
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -21,18 +22,12 @@ var (
 	AppEnvKey = DefaultAppEnvKey
 )
 
-// SetAppEnvKey SetAppEnv 设置环境变量
-func SetAppEnvKey(key string) {
-	AppEnvKey = key
-}
-
-// GetAppEnv 获取应用环境变量
-func GetAppEnv() string {
-	return AppEnv
+type Options struct {
+	AppEnv string
 }
 
 // InitAppEnv 初始化应用环境变量
-func InitAppEnv() {
+func InitAppEnv() error {
 	AppEnv = GetEnv(AppEnvKey)
 	if len(AppEnv) == 0 { //默认开发环境
 		AppEnv = DEV
@@ -40,8 +35,17 @@ func InitAppEnv() {
 	switch AppEnv {
 	case PROD, GRAY, PRE, TEST, DEV:
 	default:
-		panic(fmt.Sprintf("Unknown environment variable: %s", AppEnv))
+		return errors.New(fmt.Sprintf("Unknown environment variable: %s", AppEnv))
 	}
+	return nil
+}
+
+// InitAppEnvWithOptions 使用Option初始化应用环境变量
+func InitAppEnvWithOptions(opt Options) error {
+	if len(opt.AppEnv) > 0 {
+		AppEnvKey = opt.AppEnv
+	}
+	return InitAppEnv()
 }
 
 func IsProd() bool {

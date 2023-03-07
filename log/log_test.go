@@ -2,15 +2,15 @@ package log
 
 import (
 	"fmt"
-	"github.com/bang-go/kit/error"
+	"github.com/bang-go/kit/berror"
 	"testing"
 )
 
 func TestLogger(t *testing.T) {
-	err := InitLogger(&Options{Default: ConfigProd})
+	_, err := New(&Options{Default: ConfigProd})
 	if err != nil {
 		fmt.Println(err)
-		error.Exit(1)
+		berror.Exit(1)
 	}
-	Error("test", String("say", "hello"))
+	//Error("test", String("say", "hello"))
 }

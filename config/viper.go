@@ -1,4 +1,4 @@
-package viper
+package config
 
 import (
 	"fmt"
@@ -22,7 +22,7 @@ func InitConfig(opt *Options) (err error) {
 	for _, value := range opt.ConfigNames {
 		viper.SetConfigName(value)                   //配置文件名称(无扩展名)
 		if err = viper.MergeInConfig(); err != nil { // 处理错误
-			return
+			return err
 		}
 	}
 	viper.OnConfigChange(func(e fsnotify.Event) {

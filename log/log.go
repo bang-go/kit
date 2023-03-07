@@ -55,16 +55,18 @@ var (
 type Config = zap.Config
 type Level = zapcore.Level
 type Field = zap.Field
-
+type Logger struct {
+	l *zap.Logger
+}
 type Options struct {
 	Default int //配置类型,默认自定义
 	Config  Config
 }
 
-var l *zap.Logger
+var logger *Logger
 
-// InitLogger 初始化客户端 //todo:支持输出文件路径及日志轮转
-func InitLogger(opt *Options) error {
+// New 创建客户端 //todo:支持输出文件路径及日志轮转
+func New(opt *Options) (*Logger, error) {
 	var cfg Config
 	var err error
 	switch opt.Default {
@@ -76,8 +78,14 @@ func InitLogger(opt *Options) error {
 		cfg = opt.Config
 	}
 	// 构建日志
-	l, err = cfg.Build(zap.AddCallerSkip(1))
-	return err
+	logger := &Logger{}
+	logger.l, err = cfg.Build(zap.AddCallerSkip(1))
+	return logger, err
+}
+
+// GetLogger 获取日志实例
+func GetLogger() *Logger {
+	return logger
 }
 
 // 默认生产配置
