@@ -7,10 +7,11 @@ import (
 )
 
 func TestLogger(t *testing.T) {
-	_, err := New(&Options{Default: ConfigProd})
+	logger, err := New(&Options{Default: ConfigProd})
 	if err != nil {
 		fmt.Println(err)
 		berror.Exit(1)
 	}
 	//Error("test", String("say", "hello"))
+	logger.Info("hello")
 }
