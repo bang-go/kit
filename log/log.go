@@ -86,7 +86,7 @@ func New(opt *Options) (*Logger, error) {
 		cfg = opt.Config
 	}
 	// 构建日志
-	logger := &Logger{}
+	logger = &Logger{}
 	logger.l, err = cfg.Build(zap.AddCallerSkip(1))
 	return logger, err
 }

@@ -19,16 +19,16 @@ const (
 )
 
 var (
-	AppEnvKey = DefaultAppEnvKey
+	appEnvKey = DefaultAppEnvKey
 )
 
 type Options struct {
-	AppEnv string
+	AppKey string
 }
 
 // InitAppEnv 初始化应用环境变量
 func InitAppEnv() error {
-	AppEnv = GetEnv(AppEnvKey)
+	AppEnv = GetEnv(appEnvKey)
 	if len(AppEnv) == 0 { //默认开发环境
 		AppEnv = DEV
 	}
@@ -42,10 +42,14 @@ func InitAppEnv() error {
 
 // InitAppEnvWithOptions 使用Option初始化应用环境变量
 func InitAppEnvWithOptions(opt Options) error {
-	if len(opt.AppEnv) > 0 {
-		AppEnvKey = opt.AppEnv
+	if len(opt.AppKey) > 0 {
+		appEnvKey = opt.AppKey
 	}
 	return InitAppEnv()
+}
+
+func GetAppEnv() string {
+	return AppEnv
 }
 
 func IsProd() bool {
