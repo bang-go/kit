@@ -26,8 +26,8 @@ type Options struct {
 	AppKey string
 }
 
-// InitAppEnv 初始化应用环境变量
-func InitAppEnv() error {
+// Configure 初始化应用环境变量
+func Configure() error {
 	AppEnv = GetEnv(appEnvKey)
 	if len(AppEnv) == 0 { //默认开发环境
 		AppEnv = DEV
@@ -40,12 +40,12 @@ func InitAppEnv() error {
 	return nil
 }
 
-// InitAppEnvWithOptions 使用Option初始化应用环境变量
-func InitAppEnvWithOptions(opt Options) error {
+// ConfigureWithOptions 使用Option初始化应用环境变量
+func ConfigureWithOptions(opt *Options) error {
 	if len(opt.AppKey) > 0 {
 		appEnvKey = opt.AppKey
 	}
-	return InitAppEnv()
+	return Configure()
 }
 
 func GetAppEnv() string {

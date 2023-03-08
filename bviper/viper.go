@@ -13,8 +13,8 @@ type Options struct {
 	ConfigNames []string //配置文件名称(无扩展名)
 }
 
-// InitConfig 初始化配置//TODO:配置中心etc等
-func InitConfig(opt *Options) (err error) {
+// Configure 初始化配置//TODO:配置中心etc等
+func Configure(opt *Options) (err error) {
 	viper.SetConfigType(opt.ConfigType) // 查找配置文件的格式
 	for _, value := range opt.ConfigPaths {
 		viper.AddConfigPath(value) // 查找配置文件的路径

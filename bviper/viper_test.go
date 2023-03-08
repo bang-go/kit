@@ -8,7 +8,7 @@ import (
 )
 
 func TestViper(t *testing.T) {
-	err := InitConfig(&Options{ConfigPaths: []string{"./", "./t"}, ConfigType: "yaml", ConfigNames: []string{"t1", "t2", "t3"}})
+	err := Configure(&Options{ConfigPaths: []string{"./", "./t"}, ConfigType: "yaml", ConfigNames: []string{"t1", "t2", "t3"}})
 	fmt.Println(err)
 	fmt.Println(viper.GetString("say"))
 	fmt.Println(viper.GetString("send"))
