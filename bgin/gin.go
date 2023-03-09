@@ -5,6 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var DefaultAddr = ":8080"
+
 type IGin interface {
 	Use(middleware ...HandlerFunc)
 	Run() error
@@ -20,7 +22,7 @@ type Options struct {
 type HandlerFunc = gin.HandlerFunc
 type Context = gin.Context
 type Client struct {
-	opt    *Options
+	Opt    *Options
 	Engine *gin.Engine
 }
 
@@ -29,17 +31,20 @@ func (c *Client) Use(middleware ...HandlerFunc) {
 }
 
 func (c *Client) Run() error {
-	return c.Engine.Run()
+	return c.Engine.Run(c.Opt.Addr)
 }
 
 func New(opt *Options) IGin {
 	mode := util.If(opt.Mode != "", opt.Mode, ReleaseMode)
+	if opt.Addr == "" {
+		opt.Addr = DefaultAddr
+	}
 	gin.SetMode(mode)
 	engine := gin.New()
 	engine.Use(gin.Recovery())
 	engine.Use(opt.Middlewares...)
 	return &Client{
-		opt:    opt,
+		Opt:    opt,
 		Engine: engine,
 	}
 }
