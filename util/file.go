@@ -12,7 +12,7 @@ type Path struct {
 }
 
 func GetPath() *Path {
-	return GetPathWithCallerSkip(1)
+	return GetPathWithCallerSkip(2)
 }
 func GetPathWithCallerSkip(skip int) *Path {
 	_, file, line, _ := runtime.Caller(skip)
