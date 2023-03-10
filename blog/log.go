@@ -1,4 +1,4 @@
-package log
+package blog
 
 import (
 	"go.uber.org/zap"
@@ -50,28 +50,28 @@ var (
 	Int64p     = zap.Int64p
 	Durationp  = zap.Durationp
 	Any        = zap.Any
-	Debug      = logger.Debug
-	Info       = logger.Info
-	Warn       = logger.Warn
-	Error      = logger.Error
-	DPanic     = logger.DPanic
-	Panic      = logger.Panic
-	Fatal      = logger.Fatal
-	Sync       = logger.Sync
 )
 
 type Config = zap.Config
 type Level = zapcore.Level
 type Field = zap.Field
+
 type Logger struct {
 	l *zap.Logger
 }
 
-var logger = &Logger{}
+var logger *Logger
 
 type Options struct {
 	Default int //配置类型,默认自定义
 	Config  Config
+}
+
+func init() {
+	cfg := newDefaultDevConfig()
+	logger = new(Logger)
+	// 构建日志
+	logger.l, _ = cfg.Build(zap.AddCallerSkip(1))
 }
 
 // New 创建客户端 //todo:支持输出文件路径及日志轮转
@@ -86,14 +86,17 @@ func New(opt *Options) (*Logger, error) {
 	default:
 		cfg = opt.Config
 	}
+	logger := new(Logger)
 	// 构建日志
 	logger.l, err = cfg.Build(zap.AddCallerSkip(1))
 	return logger, err
 }
 
-// GetLogger 获取日志实例
-func GetLogger() *Logger {
-	return logger
+// Configure 配置
+func Configure(opt *Options) error {
+	var err error
+	logger, err = New(opt)
+	return err
 }
 
 // 默认生产配置
@@ -149,4 +152,64 @@ func newDefaultDevConfig() Config {
 		OutputPaths:      []string{"stderr"},
 		ErrorOutputPaths: []string{"stderr"},
 	}
+}
+
+// GetLogger 获取日志实例
+func GetLogger() *Logger {
+	return logger
+}
+func Debug(msg string, fields ...Field) {
+	logger.l.Debug(msg, fields...)
+}
+func (l *Logger) Debug(msg string, fields ...Field) {
+	l.Debug(msg, fields...)
+}
+
+func Info(msg string, fields ...Field) {
+	logger.l.Info(msg, fields...)
+}
+func (l *Logger) Info(msg string, fields ...Field) {
+	l.l.Info(msg, fields...)
+}
+
+func Warn(msg string, fields ...Field) {
+	logger.l.Warn(msg, fields...)
+}
+func (l *Logger) Warn(msg string, fields ...Field) {
+	l.l.Warn(msg, fields...)
+}
+
+func Error(msg string, fields ...Field) {
+	logger.l.Error(msg, fields...)
+}
+func (l *Logger) Error(msg string, fields ...Field) {
+	l.l.Error(msg, fields...)
+}
+
+func DPanic(msg string, fields ...Field) {
+	logger.l.DPanic(msg, fields...)
+}
+func (l *Logger) DPanic(msg string, fields ...Field) {
+	l.l.DPanic(msg, fields...)
+}
+
+func Panic(msg string, fields ...Field) {
+	logger.l.Panic(msg, fields...)
+}
+func (l *Logger) Panic(msg string, fields ...Field) {
+	l.l.Panic(msg, fields...)
+}
+
+func Fatal(msg string, fields ...Field) {
+	logger.l.Fatal(msg, fields...)
+}
+func (l *Logger) Fatal(msg string, fields ...Field) {
+	l.l.Fatal(msg, fields...)
+}
+
+func Sync() error {
+	return logger.l.Sync()
+}
+func (l *Logger) Sync() error {
+	return l.l.Sync()
 }

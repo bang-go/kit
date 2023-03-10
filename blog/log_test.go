@@ -1,4 +1,4 @@
-package log
+package blog
 
 import (
 	"fmt"
@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-func TestLogger(t *testing.T) {
-	log1, err := New(&Options{Default: ConfigDev})
+func TestLog(t *testing.T) {
+	log1, err := New(&Options{Default: ConfigProd})
 	if err != nil {
 		fmt.Println(err)
 		berror.Exit(1)
@@ -19,5 +19,10 @@ func TestLogger(t *testing.T) {
 		berror.Exit(1)
 	}
 	//Error("test", String("say", "hello"))
-	Info("hello")
+	Info("hello1")
+	log1.Info("hello2")
+	_ = Configure(&Options{Default: ConfigDev})
+	Info("hello1")
+	log1.Info("hello2")
+
 }
