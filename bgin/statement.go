@@ -1,6 +1,7 @@
 package bgin
 
 import (
+	"github.com/bang-go/kit/bhttp"
 	"github.com/gin-gonic/gin"
 )
 

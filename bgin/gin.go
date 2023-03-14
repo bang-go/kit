@@ -1,6 +1,7 @@
 package bgin
 
 import (
+	"github.com/bang-go/kit/butil"
 	"github.com/gin-gonic/gin"
 )
 
