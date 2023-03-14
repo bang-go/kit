@@ -1,4 +1,4 @@
-package util
+package butil
 
 import "github.com/bang-go/kit/constraint"
 

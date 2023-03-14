@@ -1,4 +1,4 @@
-package http
+package bhttp
 
 import (
 	"errors"
@@ -21,7 +21,7 @@ const (
 	MethodOptions = http.MethodOptions
 	MethodTrace   = http.MethodTrace
 	//状态码
-	StatusOk = http.StatusOK
+	StatusOK = http.StatusOK
 	//请求类型
 	ContentRaw  = "Raw"  //原始请求
 	ContentForm = "Form" //Form请求
@@ -194,7 +194,7 @@ func (r *Request) makeResponse(res *http.Response, elapsed float64) (response *R
 	response.Reason = strings.Split(res.Status, " ")[1]
 	response.Headers = map[string]string{}
 	response.Cookies = map[string]string{}
-	if res.StatusCode == StatusOk { //200 定义成功
+	if res.StatusCode == StatusOK { //200 定义成功
 		response.Success = true
 	}
 	for key, value := range res.Header {

@@ -1,7 +1,6 @@
 package bgin
 
 import (
-	"github.com/bang-go/kit/http"
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,13 +9,13 @@ var (
 	ReleaseMode = gin.ReleaseMode
 	TestMode    = gin.TestMode
 
-	MethodGet     = http.MethodGet
-	MethodHead    = http.MethodHead
-	MethodPost    = http.MethodPost
-	MethodPut     = http.MethodPut
-	MethodPatch   = http.MethodPatch
-	MethodDelete  = http.MethodDelete
-	MethodConnect = http.MethodConnect
-	MethodOptions = http.MethodOptions
-	MethodTrace   = http.MethodTrace
+	MethodGet     = bhttp.MethodGet
+	MethodHead    = bhttp.MethodHead
+	MethodPost    = bhttp.MethodPost
+	MethodPut     = bhttp.MethodPut
+	MethodPatch   = bhttp.MethodPatch
+	MethodDelete  = bhttp.MethodDelete
+	MethodConnect = bhttp.MethodConnect
+	MethodOptions = bhttp.MethodOptions
+	MethodTrace   = bhttp.MethodTrace
 )

@@ -1,7 +1,6 @@
 package bgin
 
 import (
-	"github.com/bang-go/kit/util"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,7 +34,7 @@ func (c *Client) Run() error {
 }
 
 func New(opt *Options) IGin {
-	mode := util.If(opt.Mode != "", opt.Mode, ReleaseMode)
+	mode := butil.If(opt.Mode != "", opt.Mode, ReleaseMode)
 	if opt.Addr == "" {
 		opt.Addr = DefaultAddr
 	}
